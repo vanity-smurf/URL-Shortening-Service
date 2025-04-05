@@ -1,9 +1,9 @@
-use actix_web::{web, HttpServer, App};
+use actix_web::{App, HttpServer, web};
 
+mod handlers;
 mod models;
 mod redis;
 mod routes;
-mod handlers;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

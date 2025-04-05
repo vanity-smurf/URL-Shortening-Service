@@ -1,10 +1,12 @@
+use crate::handlers::{create_url, delete_url, get_url, get_url_stats};
 use actix_web::web;
-use crate::handlers::{create_url, get_url};
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
-        web::scope("/api")
-            .route("/create_url", web::post().to(create_url))
-            .route("/get_url/{short_code}", web::get().to(get_url))
+        web::scope("/shorten")
+            .route("", web::post().to(create_url))
+            .route("/{short_code}", web::get().to(get_url))
+            .route("/{short_code}", web::delete().to(delete_url))
+            .route("/{short_code}/stats", web::get().to(get_url_stats)),
     );
 }
