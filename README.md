@@ -87,34 +87,20 @@ Response:
 ```
 
 ## 🗺️ Architecture Diagram
-flowchart TD
-    A[Client] -->|HTTP Request| B[Actix-web Server]
-    B -->|Routing| C{Handlers}
-    
-    subgraph Redis
-        D[(Key-Value Store)]
-        D -->|short_code: UUID| E["{
-            url: String,
-            created_at: DateTime,
-            access_count: i32
-        }"]
-    end
-    
-    subgraph Application
-        C -->|create_url| F[Generate UUID]
-        C -->|get_url| G[Increment access_count]
-        C -->|delete_url| H[Delete Key]
-        C -->|get_url_stats| I[Read Metadata]
-        
-        F --> J[Serialize Data]
-        G --> K[Update Data]
-        J --> D
-        K --> D
-        H --> D
-        I --> D
-    end
 
-    style A fill:#f9f,stroke:#333
-    style B fill:#77f,stroke:#333
-    style D fill:#f96,stroke:#333
-    style C fill:#7f7,stroke:#333
+```mermaid
+flowchart TD
+    A[User's Browser/Postman] --> B[Actix Web Server]
+    B --> C[Route Handlers]
+    C --> D[Redis Connection Pool]
+    C --> E[UUID Generation]
+    C --> F[Redis DB]
+    D --> G[Redis Database]
+    F --> G
+
+    style A fill:#4CAF50,stroke:#333
+    style B fill:#2196F3,stroke:#333
+    style C fill:#9C27B0,stroke:#333
+    style D fill:#FF9800,stroke:#333
+    style G fill:#FF5722,stroke:#333
+```
